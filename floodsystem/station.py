@@ -5,6 +5,7 @@
 for manipulating/modifying station data
 
 """
+from typing import Optional,List
 
 
 class MonitoringStation:
@@ -38,3 +39,21 @@ class MonitoringStation:
         d += "   river:         {}\n".format(self.river)
         d += "   typical range: {}".format(self.typical_range)
         return d
+
+    def typical_range_consistent(self) -> bool:
+        if self.typical_range is None:
+            return False
+        if self.typical_range[0] >= self.typical_range[1]:
+            return False
+        return True
+
+    def relative_water_level(self) -> Optional[float]:
+        if not self.typical_range_consistent():
+            return None
+        if self.latest_level is None:
+            return None
+        return (self.latest_level - self.typical_range[0])/(self.typical_range[1] - self.typical_range[0])
+
+
+def inconsistent_typical_range_stations(stations: List[MonitoringStation]) -> List[MonitoringStation]:
+    return [stat for stat in stations if not stat.typical_range_consistent()]
