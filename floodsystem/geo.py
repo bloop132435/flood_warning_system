@@ -53,7 +53,7 @@ def stations_by_river(stations:List[MonitoringStation])->Dict[str,List[Monitorin
     return d
 
 def rivers_by_station_number(stations:List[MonitoringStation], N:int)-> List[Tuple[str,int]]:
-    
+    """(1E) Creates a list of rivers with greatest number of monitoring stations, with N unique numbers of monitoring stations"""
     dct = stations_by_river(stations)
     arr = [(river,len(x)) for river,x in dct.items()]
     arr = sorted_by_key(arr,1,reverse=True)

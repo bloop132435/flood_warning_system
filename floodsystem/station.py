@@ -41,6 +41,7 @@ class MonitoringStation:
         return d
 
     def typical_range_consistent(self) -> bool:
+        """(1F boolean method checking typical high/low range data for consistency of class)"""
         if self.typical_range is None:
             return False
         if self.typical_range[0] >= self.typical_range[1]:
@@ -56,4 +57,5 @@ class MonitoringStation:
 
 
 def inconsistent_typical_range_stations(stations: List[MonitoringStation]) -> List[MonitoringStation]:
+    """(1F) Filters a list of stations, returns list of inconsisten stations"""
     return [stat for stat in stations if not stat.typical_range_consistent()]
