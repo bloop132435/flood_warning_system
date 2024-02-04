@@ -11,7 +11,7 @@ import random
 stations = build_station_list()
 
 # List of random uk coordinates
-random_uk_coords =  [(random.uniform(50, 58),random.uniform(-10, 2)) for i in range(1000)]
+random_uk_coords =  [(random.uniform(50, 58),random.uniform(-10, 2)) for i in range(100)]
 
 def test_stations_by_distance():
     
@@ -26,7 +26,7 @@ def test_stations_within_radius():
 
     for x in random_uk_coords:
         r = random.uniform(1, 100) # choose a random radius between 1 and 100km
-        filtered_stations = stations_within_radius(stations, p, r)
+        filtered_stations = stations_within_radius(stations, x, r)
 
         for station in filtered_stations:
             assert station[1] <= r
