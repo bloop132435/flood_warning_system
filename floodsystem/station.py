@@ -57,5 +57,5 @@ class MonitoringStation:
 
 
 def inconsistent_typical_range_stations(stations: List[MonitoringStation]) -> List[MonitoringStation]:
-    """(1F) Filters a list of stations, returns list of inconsisten stations"""
+    """(1F) Filters a list of stations, returns list of inconsistent stations"""
     return [stat for stat in stations if not stat.typical_range_consistent()]
