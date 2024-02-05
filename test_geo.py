@@ -25,15 +25,53 @@ def test_stations_by_distance():
 def test_stations_within_radius():
 
     for x in random_uk_coords:
-        r = random.uniform(1, 100) # choose a random radius between 1 and 100km
+        r = random.uniform(1, 300) # choose a random radius between 1 and 300km
         filtered_stations = stations_within_radius(stations, x, r)
 
         for station in filtered_stations:
             assert station[1] <= r
 
+def test_rivers_with_station():
 
-# def test_rivers_with_station:
+    for i in range(100):
+        # Create a random set of stations
+        station_group = []
+        while len(station_group) < random.randint(1, len(stations)):
+            random_station = random.choice(stations)
+            if random_station not in station_group:
+                station_group.append(random_station)
+        
+        river_group = rivers_with_station(station_group)
 
-# def test_stations_by_river:
+        all_rivers_included = True
+        
+        for river in river_group:
+            river_included = False
+            for station in station_group:
+                
+                # check for rivers not monitored by station group
+                if river == station.river:
+                    river_included = True
+                
+                # check for stations not monitoring river from river_group
+                if station.river not in river_group:
+                    all_rivers_included = False
+
+            assert river_included
+        
+        assert all_rivers_included
+     
+
+def test_stations_by_river():
+    river_dictionary = stations_by_river(stations)
+
+    for key in river_dictionary:
+        river_totally_monitored = True
+
+        # check for stations not monitoring river
+        for station in river_dictionary[key]:
+            if station.river != key:
+                river_totally_monitored = False
+        assert river_totally_monitored
 
 # def test_rivers_by_station_number:
