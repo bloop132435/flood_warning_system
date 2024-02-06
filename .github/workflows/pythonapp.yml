@@ -28,7 +28,6 @@ jobs:
       - name: Run unit tests using pytest
         run: pytest -v
         
-
       - name: Run Deliverable 1 code
         run: |
           python Task1A.py
