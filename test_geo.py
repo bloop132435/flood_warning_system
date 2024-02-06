@@ -13,11 +13,14 @@ stations = build_station_list()
 # List of random uk coordinates
 random_uk_coords =  [(random.uniform(50, 58),random.uniform(-10, 2)) for i in range(100)]
 
+
 def test_stations_by_distance():
     
     for p in random_uk_coords:
         sorted_stations = stations_by_distance(stations, p)
         for i in range(len(sorted_stations)):
+            
+            # check that list is ordered
             if i > 0:
                 assert sorted_stations[i][1] >= sorted_stations[i-1][1]
     
@@ -28,12 +31,14 @@ def test_stations_within_radius():
         r = random.uniform(1, 300) # choose a random radius between 1 and 300km
         filtered_stations = stations_within_radius(stations, x, r)
 
+        # check that retuned stations are within radius
         for station in filtered_stations:
             assert station[1] <= r
 
+
 def test_rivers_with_station():
 
-    for i in range(100):
+    for dummy in range(100):
         # Create a random set of stations
         station_group = []
         while len(station_group) < random.randint(1, len(stations)):
@@ -63,6 +68,7 @@ def test_rivers_with_station():
      
 
 def test_stations_by_river():
+    
     river_dictionary = stations_by_river(stations)
 
     for key in river_dictionary:
@@ -72,6 +78,33 @@ def test_stations_by_river():
         for station in river_dictionary[key]:
             if station.river != key:
                 river_totally_monitored = False
+        
         assert river_totally_monitored
 
-# def test_rivers_by_station_number:
+
+def test_rivers_by_station_number():
+
+    for dummy in range(100):
+
+        # create a random set of stations
+        station_group = []
+        while len(station_group) < random.randint(1, len(stations)):
+            random_station = random.choice(stations)
+            if random_station not in station_group:
+                station_group.append(random_station)
+        
+        # choose a random number up to number of rivers being monitored by station_group
+        N = random.randint(1, len(stations_by_river(station_group)))
+        rivers = rivers_by_station_number(station_group, N)     
+
+        same_counter = 0
+        for i in range(len(rivers)):
+            # check that rivers have been sorted from most to least stations
+            if i > 0:
+                assert rivers[i][1] <= rivers[i-1][1]
+                    
+                if rivers[i][1] == rivers[i-1][1]:
+                    same_counter += 1
+        
+        # check that function returned the N+s most stations
+        assert len(rivers) - same_counter <= N
