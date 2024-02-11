@@ -9,8 +9,13 @@ def compact_repr(stat:MonitoringStation)->str:
 def run():
     """Requirements for Task 2B"""
 
+    # Build list of stations
     stations = build_station_list()
+    
+    # Fetch river levels for each station
     update_water_levels(stations)
+
+    # Print stations with a relative level above 0.8
     print("".join([compact_repr(s) for s in stations_level_over_threshold(stations,0.8)]))
 
 

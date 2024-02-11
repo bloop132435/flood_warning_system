@@ -49,6 +49,7 @@ class MonitoringStation:
         return True
 
     def relative_water_level(self) -> Optional[float]:
+        """(2B float method returning latest water level as fraction of typical range, returns none if inconsistent typical range)"""
         if not self.typical_range_consistent():
             return None
         if self.latest_level is None:
