@@ -11,6 +11,7 @@ def stations_level_over_threshold(stations:List[MonitoringStation], tol: float)-
     return sorted_stations
 
 def stations_highest_rel_level(stations:List[MonitoringStation], N:int)->List[MonitoringStation]:
+    """(2C) create a list of N stations with highest relative water levels"""
     pruned_stations = [s for s in stations if s.relative_water_level() != None]
     sorted_stations = sorted(pruned_stations,key=lambda x: -1 * (x.relative_water_level() or 0))
     return sorted_stations[:N]
