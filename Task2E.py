@@ -20,8 +20,6 @@ def run():
     for station in high_stations:
         dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=10))
         plot_water_levels(high_stations, dates, levels)
-        plt.show()       
-
 
 if __name__ == "__main__":
     print("*** Task 2E: CUED Part IA Flood Warning System ***")
