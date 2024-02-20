@@ -1,3 +1,7 @@
+# Copyright (C) 2018 Garth N. Wells
+#
+# SPDX-License-Identifier: MIT
+"""This module contains functions related to water level data"""
 from typing import List
 from .station import MonitoringStation
 
