@@ -12,14 +12,13 @@ def run():
 
     # Build list of stations
     stations = build_station_list()
-
-    # Identify 5 stations with highest water levels
-    high_stations = stations_highest_rel_level(stations, 5)
-
-    # Create plots of water levels of high_stations for past 10 days
-    for station in high_stations:
-        dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=10))
-        plot_water_levels(high_stations, dates, levels)
+    update_water_levels(stations)
+    high_stations = stations_highest_rel_level(stations,5)
+    dt = 10
+    tt = datetime.timedelta(days=dt)
+    for s in high_stations:
+        dates, levels = fetch_measure_levels(s.measure_id, dt=tt)
+        plot_water_levels(s,dates,levels)
 
 if __name__ == "__main__":
     print("*** Task 2E: CUED Part IA Flood Warning System ***")

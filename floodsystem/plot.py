@@ -1,23 +1,13 @@
-# Copyright (C) 2018 Garth N. Wells
-#
-# SPDX-License-Identifier: MIT
-"""This module di"""
+from .station import MonitoringStation
 import matplotlib.pyplot as plt
-from floodsystem.station import MonitoringStation
-from datetime import datetime
-from typing import List
 
-def plot_water_levels(station:MonitoringStation, dates:List[datetime], levels:List[float]):
-    # Plot
-    plt.plot(dates, levels)
-
-    # Add axis labels, rotate date labels and add plot title
+def plot_water_levels(station: MonitoringStation,dates: list, levels: list):
+    plt.plot(dates,levels)
     plt.xlabel('date')
     plt.ylabel('water level (m)')
+    plt.title(f"{station.name} water level data")
+    plt.axhline(y=station.typical_range[0], color='r', linestyle='-')
+    plt.axhline(y=station.typical_range[1], color='r', linestyle='-')
+    plt.tight_layout(rect=[0, 0.09, 1, 0.95])
     plt.xticks(rotation=45)
-    plt.title(MonitoringStation.town)
-
-    # Display plot
-    plt.tight_layout()  # This makes sure plot does not cut off date labels
-    
     plt.show()
