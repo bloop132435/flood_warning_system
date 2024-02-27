@@ -48,13 +48,16 @@ class MonitoringStation:
             return False
         return True
 
-    def relative_water_level(self) -> Optional[float]:
+    def relative_water_level(self,level:float=-1.0) -> Optional[float]:
         """(2B float method returning latest water level as fraction of typical range, returns none if inconsistent typical range)"""
         if not self.typical_range_consistent():
             return None
-        if self.latest_level is None:
-            return None
-        return (self.latest_level - self.typical_range[0])/(self.typical_range[1] - self.typical_range[0])
+        if level == -1.0:
+            if self.latest_level is None:
+                return None
+            return (self.latest_level - self.typical_range[0])/(self.typical_range[1] - self.typical_range[0])
+        else:
+            return (level - self.typical_range[0])/(self.typical_range[1] - self.typical_range[0])
 
 
 def inconsistent_typical_range_stations(stations: List[MonitoringStation]) -> List[MonitoringStation]:
