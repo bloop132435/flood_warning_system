@@ -10,26 +10,30 @@ from floodsystem.plot import plot_water_level_with_fit
 from floodsystem.analysis import flood_metric, flood_category
 import matplotlib.pyplot as plt
 
-
 def run():
 
     # Build list of stations
     stations = build_station_list()
     stations = sorted(stations,key=lambda s:s.name)
     update_water_levels(stations)
-    # metrics = [flood_metric(s) for s in stations]
     warnings = [flood_category(s) for s in stations]
-    d = dict()
+
+    d = {"Low":[], "Moderate":[], "High":[], "Severe":[]}
     for w,stat in zip(warnings,stations):
-        if w in d:
-            d[w]+=1
-        else:
-            d[w] = 1
-        if w == 'Severe':
-            print(stat.name)
-    print(d)
-    plt.bar(d.keys(),d.values())
+        d[w].append(stat)
+
+    print(len(d["Moderate"]), "moderate stations:", [s.name for s in d["Moderate"]])
+    print(len(d["High"]), "high stations:", [s.name for s in d["High"]])
+    print(len(d["Severe"]), "severe stations:", [s.name for s in d["Severe"]])
+    
+    plt.bar(d.keys(),[len(arr) for arr in d.values()])
     plt.show()
+
+    # for s in d["Severe"]:
+    #     dates, levels = fetch_measure_levels(s.measure_id, dt=datetime.timedelta(3))
+    #     plot_water_level_with_fit(s,dates,levels,3)
+
+    # # FOR TESTING PURPOSES:
     # m = 1
     # stat = 0
     # for met,s in zip(metrics,stations):
@@ -43,10 +47,6 @@ def run():
     # plt.show()
 
 
-
-
-
-
 if __name__ == "__main__":
-    print("*** Task 2F: CUED Part IA Flood Warning System ***")
+    print("*** Task 2G: CUED Part IA Flood Warning System ***")
     run()

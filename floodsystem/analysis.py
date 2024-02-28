@@ -20,12 +20,10 @@ def flood_metric(stat: MonitoringStation,
                          look_back: datetime.timedelta = datetime.timedelta(days=3),
                          look_ahead: datetime.timedelta = datetime.timedelta(days=1),
                          poly_order: int = 3) -> float:
+    """(2G) returns flood metric based on current and predicted levels based on polyfit curve"""
+
     rwl = stat.relative_water_level()
     rwl = rwl if rwl is not None else -1
-    # if rwl < 0:
-    #     rwl = -2
-    # return rwl
-
 
     if not stat.typical_range_consistent():
         print(stat.name + ' irregular range')
@@ -33,6 +31,8 @@ def flood_metric(stat: MonitoringStation,
     if rwl <= 1:
         print(stat.name + ' within range')
         return max(rwl,0)
+    
+    # fetch dates and water levels
     try:
         dates, levels = fetch_measure_levels(stat.measure_id, dt=look_back)
     except:
@@ -40,8 +40,12 @@ def flood_metric(stat: MonitoringStation,
         return -1
     if len(dates)==0:
         return -1
+    
+    # create line of best fit
     best_fit = polyfit(dates, levels, poly_order)
     poly = best_fit[0]
+
+    # compare predicted values from poly with previous values, return metric based on difference
     value_at_la = poly(look_back.days + look_ahead.days)
     print(stat.name)
     wl = stat.relative_water_level(value_at_la)
@@ -52,6 +56,7 @@ def flood_category(stat: MonitoringStation,
                          look_back: datetime.timedelta = datetime.timedelta(days=3),
                          look_ahead: datetime.timedelta = datetime.timedelta(days=1),
                          poly_order: int = 3) -> str:
+    """(2G) returns flood category based on flood metric"""
     x = flood_metric(stat,look_back,look_ahead,poly_order)
     if x <= 1:
         return 'Low'
