@@ -6,27 +6,14 @@
 
 from floodsystem.analysis import *
 import numpy
-import random
+import matplotlib.dates
 
 def test_polyfit():
-    for p in [random.randint(2, 2) for i in range(1)]:
-        x = numpy.linspace(-10, 10, 1)
-        polynomial = []
-        y = numpy.zeros(len(x))
-        for i in range(p+1):
-            coeff = random.randint(-10, 10)
-            polynomial.append(coeff)
-            y += coeff * (x**i)
-        poly, d0 = polyfit(x, y, p)
+    # test up to quintic
+    for p in range(5):
+        x = numpy.linspace(0,20,2000)
+        y = numpy.array([a**(p+1) for a in x])
 
-        # check that correct degree polynomial has been created
-        # assert len(poly) == p
-
-        # # check that error is minimised
-        for p_coeff, poly_coeff in zip(polynomial, poly):
-            print(p_coeff, poly_coeff)
-
-        print("\n")
-        #     assert p_coeff == poly_coeff 
-
-test_polyfit()
+        poly, d0 = polyfit(matplotlib.dates.num2date(x), y, 10)
+        y_test = poly(x)
+        assert (numpy.round(y,3) == numpy.round(y_test,3)).all()

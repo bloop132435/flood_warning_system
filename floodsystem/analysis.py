@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 import numpy as np
-import matplotlib
+import matplotlib.dates
 import datetime
 from .station import MonitoringStation
 from .datafetcher import fetch_measure_levels
