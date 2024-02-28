@@ -11,6 +11,7 @@ from .station import MonitoringStation
 from .analysis import polyfit
 
 def plot_water_levels(station:MonitoringStation, dates:list, levels:list, show:bool = True):
+    """(2E/F) plot given water levels over time"""
     plt.plot(dates,levels,".")
 
     plt.xlabel('date')
@@ -24,6 +25,8 @@ def plot_water_levels(station:MonitoringStation, dates:list, levels:list, show:b
         plt.show()
 
 def plot_water_level_with_fit(station:MonitoringStation, dates:list, levels:list, p:int):
+    """(2F) plot polynomial of best fit of given water levels and dates"""
+    plot_water_levels(station, dates, levels,show=False)
 
     x = matplotlib.dates.date2num(dates)
     best_fit = polyfit(dates, levels, p)
@@ -31,6 +34,5 @@ def plot_water_level_with_fit(station:MonitoringStation, dates:list, levels:list
 
     x1 = np.linspace(x[0], x[-1], 100)
 
-    plot_water_levels(station, dates, levels,show=False)
     plt.plot(x1, poly(x1 - best_fit[1]))
     plt.show()

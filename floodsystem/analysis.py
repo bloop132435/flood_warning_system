@@ -9,7 +9,7 @@ from .station import MonitoringStation
 from .datafetcher import fetch_measure_levels
 
 def polyfit(dates:list, levels:list, p:int)->tuple:
-
+    """(2F) find order p polynomial of best fit of given water levels and dates"""
     x = matplotlib.dates.date2num(dates)
     p_coeff = np.polyfit(x - x[0], np.array(levels), p)
     poly = np.poly1d(p_coeff)
